@@ -16,15 +16,18 @@ text-align: center;"
     {%for todo in todolist%}
         <li>
          {{todo}}
+         <form method="post" action="/delete_todo/{{loop.index0}}">
+         <input type="Submit" value="Delete">
+         </form>
         </li>
     {%endfor%}
 </ul>
-<form>
+<form method="post">
 
 <input name="new_todo">
 <input type="submit">
 
-</form>
+</form method="post">
 
     
 </body>
