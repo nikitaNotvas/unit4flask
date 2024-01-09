@@ -15,8 +15,8 @@ text-align: center;"
 <ul style="color:red;font-family:courier;text-align: center;">
     {%for todo in todolist%}
         <li>
-         {{todo}}
-         <form method="post" action="/delete_todo/{{loop.index0}}">
+         {{todo['description']}}
+         <form method="post" action="/delete_todo/{{todo['id']}}">
          <input type="Submit" value="Delete">
          </form>
         </li>
