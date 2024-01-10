@@ -2,11 +2,40 @@
 <html lang="en">
 <head>
    <h1 style="font-family:courier;">THE TO DO LIST</h1>
+   <style>
+   body{
+background-color:rgb(62, 62, 62);
+text-align: center;
+
+   }
+.compdlete{
+  text-decoration: line-through;
+  font-style: italic;
+}
+input{
+    background-color: rgba(0, 0, 0, 0.631);
+    border-radius: 15px;
+    color:rgb(244, 244, 244);
+    padding: 8px 12px;
+    border: 12px;
+}
+ul {
+    display: inline-block;
+    text-align: left;
+}
+input,textarea[type=submit]:hover{
+    background-color: rgb(255, 255, 255);
+    color:rgb(0, 0, 0);}
+
+
+
+
+
+
+   </style>
 </head>
-<body style=
-"background-color:powderblue;
-text-align: center;"
-></body>
+
+</body>
 
 
 
@@ -14,12 +43,29 @@ text-align: center;"
 
 <ul style="color:red;font-family:courier;text-align: center;">
     {%for todo in todolist%}
-        <li>
+        <li class="{% if todo['complete']%}compdlete{%endif%}">
+        
          {{todo['description']}}
+         {% if todo['complete']%}✅{%endif%}
          <form method="post" action="/delete_todo/{{todo['id']}}">
          <input type="Submit" value="Delete">
          </form>
+         {%if todo['complete'] == 0%}
+         <form method="post" action="/complete_todo/{{todo['id']}}">
+         <input type="Submit" value="Complete">
+         {%endif%}
+         {%if todo['complete']%}
+         <form method="post" action="/uncomplete_todo/{{todo['id']}}" >
+          <input type="Submit" value="Uncmoplete">
+         </form>
+         {%endif%}
+
+         
+         </form>
+        <br>
         </li>
+        
+
     {%endfor%}
 </ul>
 <form method="post">
