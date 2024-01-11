@@ -1,5 +1,10 @@
 from flask import Flask, render_template,request,redirect
 import pymysql,pymysql.cursors
+from flask_httpauth import HTTPBasicAuth
+from werkzeug.security import generate_password_hash, check_password_hash
+
+auth = HTTPBasicAuth()
+app = Flask(__name__)
 
 
 conn = pymysql.connect(
@@ -11,11 +16,19 @@ conn = pymysql.connect(
 )
 
 
+users = {
+    "humano": generate_password_hash ("no")
+}
 
+@auth.verify_password
+def verify_password(username, password):
+    if username in users and \
+            check_password_hash(users.get(username), password):
+        return username
 
-app = Flask(__name__)
 
 @app.route('/',methods=["GET","POST"])
+@auth.login_required
 def index():
 
     if request.method == "POST":
@@ -33,6 +46,7 @@ def index():
     
     cursor.close()
     conn.commit()
+
 
 
 
